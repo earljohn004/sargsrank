@@ -1,6 +1,6 @@
 import {
-  AuthBindings,
   Authenticated,
+  AuthPage,
   GitHubBanner,
   Refine,
 } from "@refinedev/core";
@@ -27,7 +27,6 @@ import axios from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { CredentialResponse } from "./interfaces/google";
 import {
   BlogPostCreate,
   BlogPostEdit,
@@ -40,8 +39,10 @@ import {
   CategoryList,
   CategoryShow,
 } from "./pages/categories";
+import { FormControlLabel, Checkbox } from "@mui/material";
+import { useFormContext } from "react-hook-form";
+import { authProvider } from "./provider/authprovider";
 import { Login } from "./pages/login";
-import { parseJwt } from "./utils/parse-jwt";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -53,86 +54,43 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
+export const authCredentials = {
+    email: "demo@refine.dev",
+    password: "demodemo",
+};
+
+
+
 function App() {
-  const authProvider: AuthBindings = {
-    login: async ({ credential }: CredentialResponse) => {
-      const profileObj = credential ? parseJwt(credential) : null;
 
-      if (profileObj) {
-        localStorage.setItem(
-          "user",
-          JSON.stringify({
-            ...profileObj,
-            avatar: profileObj.picture,
-          })
-        );
 
-        localStorage.setItem("token", `${credential}`);
+  const RememeberMe = () => {
+    const { register } = useFormContext();
 
-        return {
-          success: true,
-          redirectTo: "/",
-        };
-      }
+    return (
+        <FormControlLabel
+            sx={{
+                span: {
+                    fontSize: "12px",
+                    color: "text.secondary",
+                },
+            }}
+            color="secondary"
+            control={
+                <Checkbox
+                    size="small"
+                    id="rememberMe"
+                    {...register("rememberMe")}
+                />
+            }
+            label="Remember me"
+        />
+    );
+};
 
-      return {
-        success: false,
-      };
-    },
-    logout: async () => {
-      const token = localStorage.getItem("token");
-
-      if (token && typeof window !== "undefined") {
-        localStorage.removeItem("token");
-        localStorage.removeItem("user");
-        axios.defaults.headers.common = {};
-        window.google?.accounts.id.revoke(token, () => {
-          return {};
-        });
-      }
-
-      return {
-        success: true,
-        redirectTo: "/login",
-      };
-    },
-    onError: async (error) => {
-      console.error(error);
-      return { error };
-    },
-    check: async () => {
-      const token = localStorage.getItem("token");
-
-      if (token) {
-        return {
-          authenticated: true,
-        };
-      }
-
-      return {
-        authenticated: false,
-        error: {
-          message: "Check failed",
-          name: "Token not found",
-        },
-        logout: true,
-        redirectTo: "/login",
-      };
-    },
-    getPermissions: async () => null,
-    getIdentity: async () => {
-      const user = localStorage.getItem("user");
-      if (user) {
-        return JSON.parse(user);
-      }
-
-      return null;
-    },
-  };
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
