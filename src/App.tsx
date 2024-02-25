@@ -1,5 +1,5 @@
 import { Authenticated, Refine } from "@refinedev/core";
-import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
+import { DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
 import {
@@ -22,20 +22,9 @@ import axios from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import {
-  BlogPostCreate,
-  BlogPostEdit,
-  BlogPostList,
-  BlogPostShow,
-} from "./pages/blog-posts";
-import {
-  CategoryCreate,
-  CategoryEdit,
-  CategoryList,
-  CategoryShow,
-} from "./pages/categories";
 import { authProvider } from "./provider/authprovider";
 import { Login } from "./pages/login";
+import LeaderBoardList from "./pages/leaderboard/list";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -63,25 +52,23 @@ function App() {
                 authProvider={authProvider}
                 resources={[
                   {
-                    name: "blog_posts",
-                    list: "/blog-posts",
-                    create: "/blog-posts/create",
-                    edit: "/blog-posts/edit/:id",
-                    show: "/blog-posts/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
+                    name: "leaderboard",
+                    list: "/leaderboard",
                   },
                   {
-                    name: "categories",
-                    list: "/categories",
-                    create: "/categories/create",
-                    edit: "/categories/edit/:id",
-                    show: "/categories/show/:id",
+                    name: "games",
+                    list: "/gamelist",
+                    create: "/gamelist/create",
+                    show: "/gamelist/show/:id",
                     meta: {
-                      canDelete: true,
-                    },
+                      canDelete: true
+                    }
                   },
+                  {
+                    name: "profile",
+                    list: "/profile",
+                    show: "/profile/:id"
+                  }
                 ]}
                 options={{
                   syncWithLocation: true,
@@ -103,21 +90,16 @@ function App() {
                       </Authenticated>
                     }
                   >
-                    <Route
-                      index
-                      element={<NavigateToResource resource="blog_posts" />}
-                    />
-                    <Route path="/blog-posts">
-                      <Route index element={<BlogPostList />} />
-                      <Route path="create" element={<BlogPostCreate />} />
-                      <Route path="edit/:id" element={<BlogPostEdit />} />
-                      <Route path="show/:id" element={<BlogPostShow />} />
+                    <Route index element={<NavigateToResource resource="leaderboard"/>}/>
+                    <Route path="/leaderboard">
+                      <Route  index element={<><LeaderBoardList/></>}/>
                     </Route>
-                    <Route path="/categories">
-                      <Route index element={<CategoryList />} />
-                      <Route path="create" element={<CategoryCreate />} />
-                      <Route path="edit/:id" element={<CategoryEdit />} />
-                      <Route path="show/:id" element={<CategoryShow />} />
+                    <Route path="/gamelist">
+                      <Route  index element={<>games</>}/>
+                      <Route path="create" element={<>Create</>}/>
+                    </Route>
+                    <Route path="/profile">
+                      <Route  index element={<>profile</>}/>
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
@@ -139,7 +121,6 @@ function App() {
                 <UnsavedChangesNotifier />
                 <DocumentTitleHandler />
               </Refine>
-              <DevtoolsPanel />
             </DevtoolsProvider>
           </RefineSnackbarProvider>
         </ColorModeContextProvider>
