@@ -1,9 +1,4 @@
-import {
-  Authenticated,
-  AuthPage,
-  GitHubBanner,
-  Refine,
-} from "@refinedev/core";
+import { Authenticated, Refine } from "@refinedev/core";
 import { DevtoolsPanel, DevtoolsProvider } from "@refinedev/devtools";
 import { RefineKbar, RefineKbarProvider } from "@refinedev/kbar";
 
@@ -39,8 +34,6 @@ import {
   CategoryList,
   CategoryShow,
 } from "./pages/categories";
-import { FormControlLabel, Checkbox } from "@mui/material";
-import { useFormContext } from "react-hook-form";
 import { authProvider } from "./provider/authprovider";
 import { Login } from "./pages/login";
 
@@ -54,41 +47,7 @@ axiosInstance.interceptors.request.use((config) => {
   return config;
 });
 
-export const authCredentials = {
-    email: "demo@refine.dev",
-    password: "demodemo",
-};
-
-
-
 function App() {
-
-
-  const RememeberMe = () => {
-    const { register } = useFormContext();
-
-    return (
-        <FormControlLabel
-            sx={{
-                span: {
-                    fontSize: "12px",
-                    color: "text.secondary",
-                },
-            }}
-            color="secondary"
-            control={
-                <Checkbox
-                    size="small"
-                    id="rememberMe"
-                    {...register("rememberMe")}
-                />
-            }
-            label="Remember me"
-        />
-    );
-};
-
-
   return (
     <BrowserRouter>
       <RefineKbarProvider>
