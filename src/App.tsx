@@ -25,6 +25,7 @@ import { ColorModeContextProvider } from "./contexts/color-mode";
 import { authProvider } from "./provider/authprovider";
 import { Login } from "./pages/login";
 import LeaderBoardList from "./pages/leaderboard/list";
+import { GameList, CreateGame } from "./pages/games";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -95,8 +96,8 @@ function App() {
                       <Route  index element={<><LeaderBoardList/></>}/>
                     </Route>
                     <Route path="/gamelist">
-                      <Route  index element={<>games</>}/>
-                      <Route path="create" element={<>Create</>}/>
+                      <Route  index element={<GameList/>}/>
+                      <Route path="create" element={<CreateGame/>}/>
                     </Route>
                     <Route path="/profile">
                       <Route  index element={<>profile</>}/>
