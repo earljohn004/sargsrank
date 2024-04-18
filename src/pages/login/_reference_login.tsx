@@ -6,7 +6,7 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import { AuthPage, ThemedTitleV2 } from "@refinedev/mui";
 
-import { CredentialResponse } from "../interfaces/google";
+import { CredentialResponse } from "../../interfaces/google";
 
 // Todo: Update your Google Client ID here
 const GOOGLE_CLIENT_ID =
