@@ -26,3 +26,4 @@ yarn-error.log*
 # functions
 functions/venv
 dist/
+.firebase/hosting.ZGlzdA.cache
