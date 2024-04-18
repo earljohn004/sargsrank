@@ -25,6 +25,8 @@ import LeaderBoardList from "./pages/leaderboard/list";
 import { GameList, CreateGame } from "./pages/games";
 import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
+import { ForgotPassword } from "./pages/forgotPassword";
+import { Register } from "./pages/register";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -123,6 +125,11 @@ function App() {
                     }
                   >
                     <Route path="/login" element={<Login />} />
+                    <Route path="/register" element={<Register />} />
+                    <Route
+                      path="/forgot-password"
+                      element={<ForgotPassword />}
+                    />
                   </Route>
                 </Routes>
 
