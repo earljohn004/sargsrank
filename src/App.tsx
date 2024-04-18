@@ -21,10 +21,10 @@ import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import { authProvider } from "./provider/authprovider";
-import { Login } from "./pages/login";
 import LeaderBoardList from "./pages/leaderboard/list";
 import { GameList, CreateGame } from "./pages/games";
-import { firestoreDatabase } from "./config/firebaseConfig";
+import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
+import { Login } from "./pages/login";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -48,7 +48,7 @@ function App() {
               <Refine
                 dataProvider={firestoreDatabase.getDataProvider()}
                 routerProvider={routerBindings}
-                authProvider={authProvider}
+                authProvider={firebaseAuth.getAuthProvider()}
                 resources={[
                   {
                     name: "leaderboard",
