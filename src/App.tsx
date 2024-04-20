@@ -43,12 +43,6 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 function App() {
-  const [value, setValue] = useState("one");
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
   return (
     <BrowserRouter>
       <RefineKbarProvider>
