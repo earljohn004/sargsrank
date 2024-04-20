@@ -18,7 +18,6 @@ import routerBindings, {
 } from "@refinedev/react-router-v6";
 import axios from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import LeaderBoardList from "./pages/leaderboard/list";
 import { GameList, CreateGame } from "./pages/games";
@@ -26,13 +25,12 @@ import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Register } from "./pages/register";
-import { Box, Tabs, Tab } from "@mui/material";
 import { useState } from "react";
-import { TabPanel } from "@mui/lab";
-import NavTabs from "./components/linktab";
 import { ThemedHeaderV2 } from "./components/layout/header";
 import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedTitleV2 } from "./components/layout/title";
+import { refineResources } from "./resources";
+import ShowProfile from "./pages/profile/list";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -63,40 +61,7 @@ function App() {
                 dataProvider={firestoreDatabase.getDataProvider()}
                 routerProvider={routerBindings}
                 authProvider={firebaseAuth.getAuthProvider()}
-                resources={[
-                  {
-                    name: "leaderboard",
-                    list: "/leaderboard",
-                  },
-                  {
-                    name: "games",
-                    list: "/gamelist",
-                    create: "/gamelist/create",
-                    show: "/gamelist/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                  {
-                    name: "inprogress",
-                    list: "/inprogress",
-                    meta: {
-                      parent: "games"
-                    }
-                  },
-                  {
-                    name: "history",
-                    list: "/history",
-                    meta: {
-                      parent: "games"
-                    }
-                  },
-                  {
-                    name: "profile",
-                    list: "/profile",
-                    show: "/profile/:id",
-                  },
-                ]}
+                resources={refineResources}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -140,7 +105,7 @@ function App() {
                       <Route path="create" element={<CreateGame />} />
                     </Route>
                     <Route path="/profile">
-                      <Route index element={<>profile</>} />
+                      <Route index element={<ShowProfile/>} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
