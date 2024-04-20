@@ -25,7 +25,6 @@ import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Register } from "./pages/register";
-import { useState } from "react";
 import { ThemedHeaderV2 } from "./components/layout/header";
 import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedTitleV2 } from "./components/layout/title";
