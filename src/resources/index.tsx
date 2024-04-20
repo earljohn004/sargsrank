@@ -7,16 +7,16 @@ export const refineResources: ResourceProps[] = [
     },
     {
       name: "games",
-      list: "/gamelist",
-      create: "/gamelist/create",
-      show: "/gamelist/show/:id",
+      list: "/games",
+      create: "/games/create",
+      show: "/games/show/:id",
       meta: {
         canDelete: true,
       },
     },
     {
       name: "inprogress",
-      list: "/inprogress",
+      list: "/games/inprogress",
       meta: {
         parent: "games",
         label: "In Progress"
@@ -24,10 +24,10 @@ export const refineResources: ResourceProps[] = [
     },
     {
       name: "history",
-      list: "/history",
+      list: "/games/history",
       meta: {
         parent: "games",
-        label: "History"
+        label: "History",
       },
     },
     {

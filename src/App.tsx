@@ -93,9 +93,9 @@ function App() {
                         }
                       />
                     </Route>
-                    <Route path="/gamelist">
-                      <Route index element={<GameList />} />
+                    <Route path="/games" element={<GameList/>}>
                       <Route path="create" element={<CreateGame />} />
+                      <Route path="history" element={<><div>Display in Outlet</div></>}/>
                     </Route>
                     <Route path="/profile">
                       <Route index element={<ShowProfile/>} />
