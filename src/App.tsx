@@ -20,13 +20,19 @@ import axios from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { authProvider } from "./provider/authprovider";
 import LeaderBoardList from "./pages/leaderboard/list";
 import { GameList, CreateGame } from "./pages/games";
 import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Register } from "./pages/register";
+import { Box, Tabs, Tab } from "@mui/material";
+import { useState } from "react";
+import { TabPanel } from "@mui/lab";
+import NavTabs from "./components/linktab";
+import { ThemedHeaderV2 } from "./components/layout/header";
+import { ThemedSiderV2 } from "./components/layout/sider";
+import { ThemedTitleV2 } from "./components/layout/title";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -39,6 +45,12 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 function App() {
+  const [value, setValue] = useState("one");
+
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
   return (
     <BrowserRouter>
       <RefineKbarProvider>
@@ -66,6 +78,20 @@ function App() {
                     },
                   },
                   {
+                    name: "inprogress",
+                    list: "/inprogress",
+                    meta: {
+                      parent: "games"
+                    }
+                  },
+                  {
+                    name: "history",
+                    list: "/history",
+                    meta: {
+                      parent: "games"
+                    }
+                  },
+                  {
                     name: "profile",
                     list: "/profile",
                     show: "/profile/:id",
@@ -85,7 +111,11 @@ function App() {
                         key="authenticated-inner"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
+                        <ThemedLayoutV2
+                          Header={ThemedHeaderV2}
+                          Sider={ThemedSiderV2}
+                          Title={ThemedTitleV2}
+                        >
                           <Outlet />
                         </ThemedLayoutV2>
                       </Authenticated>
@@ -93,7 +123,7 @@ function App() {
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="leaderboard" />}
+                      element={<NavigateToResource resource="games" />}
                     />
                     <Route path="/leaderboard">
                       <Route

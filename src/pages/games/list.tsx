@@ -1,10 +1,9 @@
-import { List } from "@refinedev/mui";
-import React from "react";
+import { TabView } from "../../components/view/tabview";
 
 export const GameList = () => {
   return (
     <>
-      <List></List>
+      <TabView></TabView>
     </>
   );
 };
