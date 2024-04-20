@@ -1,9 +1,11 @@
 import { TabView } from "../../components/view/tabview";
 
-export const GameList = () => {
+const ShowProfile = () => {
   return (
     <>
       <TabView></TabView>
     </>
   );
 };
+
+export default ShowProfile;

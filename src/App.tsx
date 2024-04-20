@@ -18,15 +18,18 @@ import routerBindings, {
 } from "@refinedev/react-router-v6";
 import axios from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
-import { Header } from "./components/header";
 import { ColorModeContextProvider } from "./contexts/color-mode";
-import { authProvider } from "./provider/authprovider";
 import LeaderBoardList from "./pages/leaderboard/list";
 import { GameList, CreateGame } from "./pages/games";
 import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
 import { Register } from "./pages/register";
+import { ThemedHeaderV2 } from "./components/layout/header";
+import { ThemedSiderV2 } from "./components/layout/sider";
+import { ThemedTitleV2 } from "./components/layout/title";
+import { refineResources } from "./resources";
+import ShowProfile from "./pages/profile/list";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -51,26 +54,7 @@ function App() {
                 dataProvider={firestoreDatabase.getDataProvider()}
                 routerProvider={routerBindings}
                 authProvider={firebaseAuth.getAuthProvider()}
-                resources={[
-                  {
-                    name: "leaderboard",
-                    list: "/leaderboard",
-                  },
-                  {
-                    name: "games",
-                    list: "/gamelist",
-                    create: "/gamelist/create",
-                    show: "/gamelist/show/:id",
-                    meta: {
-                      canDelete: true,
-                    },
-                  },
-                  {
-                    name: "profile",
-                    list: "/profile",
-                    show: "/profile/:id",
-                  },
-                ]}
+                resources={refineResources}
                 options={{
                   syncWithLocation: true,
                   warnWhenUnsavedChanges: true,
@@ -85,7 +69,11 @@ function App() {
                         key="authenticated-inner"
                         fallback={<CatchAllNavigate to="/login" />}
                       >
-                        <ThemedLayoutV2 Header={() => <Header sticky />}>
+                        <ThemedLayoutV2
+                          Header={ThemedHeaderV2}
+                          Sider={ThemedSiderV2}
+                          Title={ThemedTitleV2}
+                        >
                           <Outlet />
                         </ThemedLayoutV2>
                       </Authenticated>
@@ -93,7 +81,7 @@ function App() {
                   >
                     <Route
                       index
-                      element={<NavigateToResource resource="leaderboard" />}
+                      element={<NavigateToResource resource="games" />}
                     />
                     <Route path="/leaderboard">
                       <Route
@@ -110,7 +98,7 @@ function App() {
                       <Route path="create" element={<CreateGame />} />
                     </Route>
                     <Route path="/profile">
-                      <Route index element={<>profile</>} />
+                      <Route index element={<ShowProfile/>} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
