@@ -20,7 +20,7 @@ import axios from "axios";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import LeaderBoardList from "./pages/leaderboard/list";
-import { GameList, CreateGame } from "./pages/games";
+import { GameList, CreateGame, GameHistory } from "./pages/games";
 import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
@@ -30,6 +30,9 @@ import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedTitleV2 } from "./components/layout/title";
 import { refineResources } from "./resources";
 import ShowProfile from "./pages/profile/list";
+import { PageMenu } from "./components/view/pagemenu";
+import { Grid } from "@mui/material";
+import { GameProgress } from "./pages/games/gameprogress";
 
 const axiosInstance = axios.create();
 axiosInstance.interceptors.request.use((config) => {
@@ -93,12 +96,23 @@ function App() {
                         }
                       />
                     </Route>
-                    <Route path="/games" element={<GameList/>}>
+                    <Route
+                      path="/games"
+                      element={
+                        <>
+                          <PageMenu resource="games" />
+                          {"display always"}
+                          <Outlet />
+                        </>
+                      }
+                    >
+                      <Route index element={<GameList />} />
                       <Route path="create" element={<CreateGame />} />
-                      <Route path="history" element={<><div>Display in Outlet</div></>}/>
+                      <Route path="history" element={<GameHistory />} />
+                      <Route path="inprogress" element={<GameProgress />} />
                     </Route>
                     <Route path="/profile">
-                      <Route index element={<ShowProfile/>} />
+                      <Route index element={<ShowProfile />} />
                     </Route>
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
