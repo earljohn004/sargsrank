@@ -17,7 +17,15 @@ import routerBindings, {
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import axios from "axios";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Link,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import LeaderBoardList from "./pages/leaderboard/list";
 import { GameList, CreateGame, GameHistory } from "./pages/games";
@@ -31,7 +39,7 @@ import { ThemedTitleV2 } from "./components/layout/title";
 import { refineResources } from "./resources";
 import ShowProfile from "./pages/profile/list";
 import { PageMenu } from "./components/view/pagemenu";
-import { Grid } from "@mui/material";
+import { Box, Button, Divider, Grid } from "@mui/material";
 import { GameProgress } from "./pages/games/gameprogress";
 
 const axiosInstance = axios.create();
@@ -96,17 +104,39 @@ function App() {
                         }
                       />
                     </Route>
+                    {/* If uncommented will follow the formating */}
                     <Route
                       path="/games"
                       element={
                         <>
-                          <PageMenu resource="games" />
-                          {"display always"}
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <PageMenu resource="games" />
+                            </Box>
+                            <Link
+                              to={"create"}
+                              style={{
+                                marginRight: 20,
+                              }}
+                            >
+                              {"Create Game"}
+                            </Link>
+                          </Box>
+                          <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
                           <Outlet />
                         </>
                       }
                     >
-                      <Route index element={<GameList />} />
+                      <Route
+                        index
+                        element={<NavigateToResource resource="inprogress" />}
+                      />
                       <Route path="create" element={<CreateGame />} />
                       <Route path="history" element={<GameHistory />} />
                       <Route path="inprogress" element={<GameProgress />} />
