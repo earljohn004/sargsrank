@@ -17,18 +17,9 @@ import routerBindings, {
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
 import axios from "axios";
-import {
-  BrowserRouter,
-  Link,
-  Navigate,
-  Outlet,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import LeaderBoardList from "./pages/leaderboard/list";
-import { GameList, CreateGame, GameHistory } from "./pages/games";
 import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
@@ -38,19 +29,10 @@ import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedTitleV2 } from "./components/layout/title";
 import { refineResources } from "./resources";
 import ShowProfile from "./pages/profile/list";
+import { Box, Divider } from "@mui/material";
 import { PageMenu } from "./components/view/pagemenu";
-import { Box, Button, Divider, Grid } from "@mui/material";
+import { CreateGame, GameHistory } from "./pages/games";
 import { GameProgress } from "./pages/games/gameprogress";
-
-const axiosInstance = axios.create();
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (config.headers) {
-    config.headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  return config;
-});
 
 function App() {
   return (
@@ -104,7 +86,7 @@ function App() {
                         }
                       />
                     </Route>
-                    {/* If uncommented will follow the formating */}
+                    {/* Game Route */}
                     <Route
                       path="/games"
                       element={
@@ -141,11 +123,43 @@ function App() {
                       <Route path="history" element={<GameHistory />} />
                       <Route path="inprogress" element={<GameProgress />} />
                     </Route>
-                    <Route path="/profile">
-                      <Route index element={<ShowProfile />} />
+
+                    {/* Profile Route */}
+                    <Route
+                      path="/profile"
+                      element={
+                        <>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <PageMenu resource="profile" />
+                            </Box>
+                          </Box>
+                          <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+                          <Outlet />
+                        </>
+                      }
+                    >
+                      <Route
+                        index
+                        element={<NavigateToResource resource="overview" />}
+                      />
+                      <Route path="overview" element={<>This is overview</>} />
+                      <Route
+                        path="match_history"
+                        element={<>This is histry</>}
+                      />
                     </Route>
+
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
+
+                  {/* Error Route */}
                   <Route
                     element={
                       <Authenticated

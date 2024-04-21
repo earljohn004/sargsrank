@@ -31,14 +31,13 @@ export const refineResources: ResourceProps[] = [
   {
     name: "profile",
     list: "/profile",
-    show: "/profile/:id",
     meta: {
       label: "Profile",
     },
   },
   {
     name: "overview",
-    list: "/overview",
+    list: "/profile/overview",
     meta: {
       parent: "profile",
       label: "Overview",
@@ -46,7 +45,7 @@ export const refineResources: ResourceProps[] = [
   },
   {
     name: "match-history",
-    list: "/match_history",
+    list: "/profile/match_history",
     meta: {
       parent: "profile",
       label: "Match History",
