@@ -21,6 +21,7 @@ export const CreateGame = () => {
     saveButtonProps,
     refineCore: { formLoading },
     setValue,
+    register,
     control,
   } = useForm({});
 
@@ -99,6 +100,7 @@ export const CreateGame = () => {
             />
           )}
         />
+        <Typography alignItems="center" variant="h5">vs</Typography>
         <Controller
           control={control}
           name={"player2"}
@@ -145,52 +147,64 @@ export const CreateGame = () => {
             />
           )}
         />
-        <Controller
-          control={control}
-          name={"mode"}
-          rules={{ required: "This field is required" }}
-          // eslint-disable-next-line
-          defaultValue={null as any}
-          render={({ field }) => (
-            <Autocomplete
-              {...modesResource}
-              {...field}
-              onChange={(_, value) => {
-                field.onChange(value.id);
-                console.log(value);
-              }}
-              getOptionLabel={(item) => {
-                return (
-                  modesResource?.options?.find((p) => {
-                    const itemId =
-                      typeof item === "object"
-                        ? item?.id?.toString()
-                        : item?.toString();
-                    const pId = p?.id?.toString();
-                    return itemId === pId;
-                  })?.name ?? ""
-                );
-              }}
-              isOptionEqualToValue={(option, value) => {
-                const optionId = option?.id?.toString();
-                const valueId =
-                  typeof value === "object"
-                    ? value?.id?.toString()
-                    : value?.toString();
-                return value === undefined || optionId === valueId;
-              }}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label={"Game Mode"}
-                  margin="normal"
-                  variant="outlined"
-                  required
-                />
-              )}
-            />
-          )}
-        />
+        <Box display="flex" gap={3}>
+          <Controller
+            control={control}
+            name={"mode"}
+            rules={{ required: "This field is required" }}
+            // eslint-disable-next-line
+            defaultValue={null as any}
+            render={({ field }) => (
+              <Autocomplete
+                {...modesResource}
+                {...field}
+                onChange={(_, value) => {
+                  field.onChange(value.id);
+                  console.log(value);
+                }}
+                getOptionLabel={(item) => {
+                  return (
+                    modesResource?.options?.find((p) => {
+                      const itemId =
+                        typeof item === "object"
+                          ? item?.id?.toString()
+                          : item?.toString();
+                      const pId = p?.id?.toString();
+                      return itemId === pId;
+                    })?.name ?? ""
+                  );
+                }}
+                isOptionEqualToValue={(option, value) => {
+                  const optionId = option?.id?.toString();
+                  const valueId =
+                    typeof value === "object"
+                      ? value?.id?.toString()
+                      : value?.toString();
+                  return value === undefined || optionId === valueId;
+                }}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    label={"Game Mode"}
+                    margin="normal"
+                    variant="outlined"
+                    sx={{ width: 400 }}
+                    required
+                  />
+                )}
+              />
+            )}
+          />
+          <TextField
+            {...register("race")}
+            margin="normal"
+            fullWidth
+            InputLabelProps={{ shrink: true }}
+            type="number"
+            label={"Race"}
+            name="race"
+          />
+        </Box>
       </Box>
     </Create>
   );
