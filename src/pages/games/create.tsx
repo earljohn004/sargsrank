@@ -87,7 +87,7 @@ export const CreateGame = () => {
               {...playersResource}
               {...field}
               onChange={(_, value) => {
-                field.onChange(value.name);
+                field.onChange(value.id);
                 setValue("playerTwo", value.name);
               }}
               getOptionLabel={(item) => {
