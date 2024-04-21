@@ -16,7 +16,6 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-import axios from "axios";
 import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import LeaderBoardList from "./pages/leaderboard/list";
@@ -28,7 +27,6 @@ import { ThemedHeaderV2 } from "./components/layout/header";
 import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedTitleV2 } from "./components/layout/title";
 import { refineResources } from "./resources";
-import ShowProfile from "./pages/profile/list";
 import { Box, Divider } from "@mui/material";
 import { PageMenu } from "./components/view/pagemenu";
 import { CreateGame, GameHistory } from "./pages/games";

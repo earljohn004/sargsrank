@@ -1,6 +1,5 @@
 import React, { ReactNode } from "react";
 import { useResource, ITreeMenu, useMenu, CanAccess } from "@refinedev/core";
-import type { ListProps } from "@refinedev/mui";
 import { Link } from "react-router-dom";
 
 interface ITabView {
@@ -17,7 +16,7 @@ export const PageMenu: React.FC<ITabView> = (props) => {
       <>
         {/* <Tabs role="navigation"> */}
         {items.map((item: ITreeMenu) => {
-          const { label, route, name, key } = item;
+          const { label, route, name } = item;
 
           return (
             <CanAccess
