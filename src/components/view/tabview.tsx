@@ -9,11 +9,7 @@ import {
   useMenu,
   CanAccess,
 } from "@refinedev/core";
-import {
-  CreateButton,
-  Breadcrumb,
-  CreateButtonProps,
-} from "@refinedev/mui";
+import { CreateButton, Breadcrumb, CreateButtonProps } from "@refinedev/mui";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -21,6 +17,7 @@ import CardHeader from "@mui/material/CardHeader";
 import Typography from "@mui/material/Typography";
 import type { ListProps } from "@refinedev/mui";
 import { Link } from "react-router-dom";
+import { Tabs, Tab } from "@mui/material";
 
 /**
  * `<List>` provides us a layout for displaying the page.
@@ -28,6 +25,28 @@ import { Link } from "react-router-dom";
  *
  * @see {@link https://refine.dev/docs/ui-frameworks/mui/components/basic-views/list} for more details.
  */
+
+const TabWrapper = () => {
+  const [value, setValue] = React.useState("one");
+  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    setValue(newValue);
+  };
+
+  return (
+    <Box sx={{ width: "100%" }}>
+      <Tabs
+        value={value}
+        onChange={handleChange}
+        aria-label="wrapped label tabs example"
+      >
+        <Tab value="one" label="Item One" />
+        <Tab value="two" label="Item Two" />
+        <Tab value="three" label="Item Three" />
+      </Tabs>
+    </Box>
+  );
+};
+
 export const TabView: React.FC<ListProps> = ({
   title,
   canCreate,
@@ -80,14 +99,9 @@ export const TabView: React.FC<ListProps> = ({
   const renderMenuItems = (items: ITreeMenu[]) => {
     return (
       <>
+        {/* <Tabs role="navigation"> */}
         {items.map((item: ITreeMenu) => {
-          const {
-            icon,
-            label,
-            route,
-            name,
-            key,
-          } = item;
+          const { icon, label, route, name, key } = item;
 
           const isSelected = key === selectedKey;
 
@@ -100,20 +114,22 @@ export const TabView: React.FC<ListProps> = ({
                 resource: item,
               }}
             >
-              <li key={label}>
-                <Link
-                  to={route ?? "/"}
-                  style={{
-                    fontWeight: isSelected ? "bold" : "normal",
-                  }}
-                >
-                  {icon}
-                  <span>{label ?? name}</span>
-                </Link>
-              </li>
+              {/* <Tab value={label} label={label}> */}
+              <Link
+                to={route ?? "/"}
+                style={{
+                  fontWeight: isSelected ? "bold" : "normal",
+                  marginRight: 20,
+                }}
+              >
+                {label ?? name}
+                {/* <Tab value="one" label={label} /> */}
+              </Link>
+              {/* </Tab> */}
             </CanAccess>
           );
         })}
+        {/* </Tabs> */}
       </>
     );
   };
@@ -130,7 +146,7 @@ export const TabView: React.FC<ListProps> = ({
 
   return (
     <>
-      <div>{renderSelectedChildren(menuItems)}</div>
+      {/* <div>{renderSelectedChildren(menuItems)}</div> */}
       <Card {...(wrapperProps ?? {})}>
         {breadcrumbComponent}
         <CardHeader

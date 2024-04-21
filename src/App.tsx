@@ -16,11 +16,9 @@ import routerBindings, {
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
-import axios from "axios";
-import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Link, Outlet, Route, Routes } from "react-router-dom";
 import { ColorModeContextProvider } from "./contexts/color-mode";
 import LeaderBoardList from "./pages/leaderboard/list";
-import { GameList, CreateGame } from "./pages/games";
 import { firebaseAuth, firestoreDatabase } from "./config/firebaseConfig";
 import { Login } from "./pages/login";
 import { ForgotPassword } from "./pages/forgotPassword";
@@ -29,17 +27,10 @@ import { ThemedHeaderV2 } from "./components/layout/header";
 import { ThemedSiderV2 } from "./components/layout/sider";
 import { ThemedTitleV2 } from "./components/layout/title";
 import { refineResources } from "./resources";
-import ShowProfile from "./pages/profile/list";
-
-const axiosInstance = axios.create();
-axiosInstance.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
-  if (config.headers) {
-    config.headers["Authorization"] = `Bearer ${token}`;
-  }
-
-  return config;
-});
+import { Box, Divider } from "@mui/material";
+import { PageMenu } from "./components/view/pagemenu";
+import { CreateGame, GameHistory } from "./pages/games";
+import { GameProgress } from "./pages/games/gameprogress";
 
 function App() {
   return (
@@ -93,15 +84,80 @@ function App() {
                         }
                       />
                     </Route>
-                    <Route path="/gamelist">
-                      <Route index element={<GameList />} />
+                    {/* Game Route */}
+                    <Route
+                      path="/games"
+                      element={
+                        <>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <PageMenu resource="games" />
+                            </Box>
+                            <Link
+                              to={"create"}
+                              style={{
+                                marginRight: 20,
+                              }}
+                            >
+                              {"Create Game"}
+                            </Link>
+                          </Box>
+                          <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+                          <Outlet />
+                        </>
+                      }
+                    >
+                      <Route
+                        index
+                        element={<NavigateToResource resource="inprogress" />}
+                      />
                       <Route path="create" element={<CreateGame />} />
+                      <Route path="history" element={<GameHistory />} />
+                      <Route path="inprogress" element={<GameProgress />} />
                     </Route>
-                    <Route path="/profile">
-                      <Route index element={<ShowProfile/>} />
+
+                    {/* Profile Route */}
+                    <Route
+                      path="/profile"
+                      element={
+                        <>
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Box sx={{ display: "flex", alignItems: "center" }}>
+                              <PageMenu resource="profile" />
+                            </Box>
+                          </Box>
+                          <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
+                          <Outlet />
+                        </>
+                      }
+                    >
+                      <Route
+                        index
+                        element={<NavigateToResource resource="overview" />}
+                      />
+                      <Route path="overview" element={<>This is overview</>} />
+                      <Route
+                        path="match_history"
+                        element={<>This is histry</>}
+                      />
                     </Route>
+
                     <Route path="*" element={<ErrorComponent />} />
                   </Route>
+
+                  {/* Error Route */}
                   <Route
                     element={
                       <Authenticated
