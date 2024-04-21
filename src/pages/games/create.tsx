@@ -8,6 +8,7 @@ export const CreateGame = () => {
     saveButtonProps,
     refineCore: { formLoading },
     register,
+    setValue,
     control,
   } = useForm({});
 
@@ -38,7 +39,7 @@ export const CreateGame = () => {
               {...field}
               onChange={(_, value) => {
                 field.onChange(value.id);
-                console.log(value);
+                setValue("playerOne", value.name);
               }}
               getOptionLabel={(item) => {
                 return (
@@ -86,8 +87,8 @@ export const CreateGame = () => {
               {...playersResource}
               {...field}
               onChange={(_, value) => {
-                field.onChange(value.id);
-                console.log(value);
+                field.onChange(value.name);
+                setValue("playerTwo", value.name);
               }}
               getOptionLabel={(item) => {
                 return (
@@ -134,7 +135,7 @@ export const CreateGame = () => {
                 {...field}
                 onChange={(_, value) => {
                   field.onChange(value.id);
-                  console.log(value);
+                  setValue("gameMode", value.name);
                 }}
                 getOptionLabel={(item) => {
                   return (

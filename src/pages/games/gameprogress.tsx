@@ -6,6 +6,7 @@ import { TabView } from "../../components/view/tabview";
 export const GameProgress = () => {
   const { dataGridProps } = useDataGrid({
     syncWithLocation: true,
+    resource: "games",
     pagination: {
       mode: "off",
     },
@@ -30,8 +31,8 @@ export const GameProgress = () => {
         headerName: "Status",
       },
       {
-        field: "gameType",
-        headerName: "Game Type",
+        field: "gameMode",
+        headerName: "Game Mode",
       },
       {
         field: "race",
