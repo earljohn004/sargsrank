@@ -1,7 +1,6 @@
-import { DataGrid, GridColDef, GridRenderCellParams } from "@mui/x-data-grid";
-import { List, useDataGrid } from "@refinedev/mui";
-import { useEffect, useMemo, useState } from "react";
-import { Typography } from "@mui/material";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { useDataGrid } from "@refinedev/mui";
+import { useMemo } from "react";
 import { TabView } from "../../components/view/tabview";
 
 export const GameProgress = () => {

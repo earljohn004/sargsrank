@@ -1,26 +1,12 @@
-import {
-  Autocomplete,
-  Box,
-  Button,
-  TextField,
-  Typography,
-} from "@mui/material";
+import { Autocomplete, Box, TextField, Typography } from "@mui/material";
 import { Create, useAutocomplete } from "@refinedev/mui";
 import { useForm } from "@refinedev/react-hook-form";
-import { useEffect, useRef, useState } from "react";
 import { Controller } from "react-hook-form";
-import { useGetIdentity } from "@refinedev/core";
-
-interface IIdentity {
-  email: string;
-  uid: string;
-}
 
 export const CreateGame = () => {
   const {
     saveButtonProps,
     refineCore: { formLoading },
-    setValue,
     register,
     control,
   } = useForm({});
@@ -32,20 +18,6 @@ export const CreateGame = () => {
   const { autocompleteProps: modesResource } = useAutocomplete({
     resource: "modes",
   });
-  const quantityRef = useRef<HTMLInputElement>(null);
-  const { data: identity } = useGetIdentity<IIdentity>();
-
-  // useEffect(() => {
-  //   if (quantityRef.current) {
-  //     setValue("totalPrice", totalPrice);
-  //     setValue("quantity", quantityRef.current.value);
-  //     setValue("inventory.retailPrice", retailPrice);
-  //     setValue("inventory.item", option);
-
-  //     setValue("timestamp", Date.now());
-  //     setValue("addedBy", identity?.email)
-  //   }
-  // }, [totalPrice, setValue, setRetailPrice, retailPrice, option, identity]);
 
   return (
     <Create isLoading={formLoading} saveButtonProps={saveButtonProps}>
@@ -100,7 +72,9 @@ export const CreateGame = () => {
             />
           )}
         />
-        <Typography alignItems="center" variant="h5">vs</Typography>
+        <Typography alignItems="center" variant="h5">
+          vs
+        </Typography>
         <Controller
           control={control}
           name={"player2"}
