@@ -8,6 +8,7 @@ export const refineResources: ResourceProps[] = [
   {
     name: "games",
     list: "/games",
+    create: "/games/create",
     meta: {
       canDelete: true,
     },
